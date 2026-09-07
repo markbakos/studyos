@@ -24,14 +24,16 @@ Task instructions override skill guidance. When skills overlap, apply the narrow
 
 ## Workflow
 
-1. Inspect the relevant code and trace the real flow before editing.
-2. Make the smallest complete change that solves the task.
-3. Run `npm run check` for code changes. Run the narrowest relevant additional test when behavior needs it.
-4. Report checks honestly; a successful build is not browser or visual proof.
+1. Read `context/README.md` and the relevant linked context documents before substantial work.
+2. Inspect the relevant code and trace the real flow before editing.
+3. Make the smallest complete change that solves the task.
+4. Update context documentation when a product contract, architecture decision, data model, or delivery status changes.
+5. Run `npm run check` for code changes. Run the narrowest relevant additional test when behavior needs it.
+6. Report checks honestly; a successful build is not browser or visual proof.
 
 ## Git
 
-- After completing and validating an implementation task, commit it automatically without asking.
+- After completing and validating any task that changes files, commit it automatically without asking.
 - Stage only files belonging to the completed task. Preserve unrelated user changes.
 - Use a concise imperative commit message that describes the result.
 - Use the repository's configured Git author unchanged. Never add `Co-authored-by`, `Signed-off-by`, AI attribution, or other authorship trailers.
