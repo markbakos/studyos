@@ -5,9 +5,9 @@ This directory is the durable product and engineering authority for StudyOS. Rea
 ## Current state
 
 - Product target: a production-usable, local-first personal study operating system.
-- Implementation: React/Vite/Tailwind foundation only.
-- Active delivery phase: Phase 1 — Foundation.
-- No IndexedDB schema, planner, domain features, PWA, or Study Pack runtime exists yet.
+- Implementation: the working tree contains an initial IndexedDB schema, academic and learning screens/services, planner, portability runtime, and PWA configuration. These are not completed release gates.
+- Active delivery phase: close Foundation validation gaps while completing and testing the existing vertical slices.
+- Planner policy 1.1 spreads exam-topic blocks across available days and falls back to compact scheduling when spacing increases shortfall. See [`PLANNER.md`](PLANNER.md) for limits.
 
 Do not infer implementation from a documented design. [`VALIDATION.md`](VALIDATION.md) records actual evidence.
 

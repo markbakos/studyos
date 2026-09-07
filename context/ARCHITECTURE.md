@@ -2,7 +2,7 @@
 
 Status: **Accepted design**
 
-Implementation: **Web foundation only**
+Implementation: **Initial feature services, pure engines, Dexie V1, and UI adapters exist in the working tree; acceptance evidence is tracked in [VALIDATION.md](VALIDATION.md).**
 
 ## Constraints
 

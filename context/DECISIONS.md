@@ -19,6 +19,7 @@ This ledger records engineering choices that resolve the confirmed product contr
 | D-013 | Accepted | No telemetry or external academic-data transfer. | Privacy and offline behavior are product constraints, not settings. |
 | D-014 | Accepted | Dependencies are installed only when their first vertical slice uses them. | Avoids speculative architecture while preserving the full product target. |
 | D-015 | Accepted | Development seed data is opt-in and never populates a real new profile. | Real data begins empty; realistic fixtures remain available for development and tests. |
+| D-016 | Accepted | Planner 1.1 prefers daily topic revisits and retries compact allocation if spacing leaves shortfall, choosing the lower-shortfall result. | Adds spaced study without worsening total deadline shortfall relative to the existing greedy policy; five regression scenarios cover the policy and content-driven replanning. |
 
 ## Open decisions
 

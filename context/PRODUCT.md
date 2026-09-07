@@ -2,7 +2,7 @@
 
 Status: **Confirmed**
 
-Implementation: **Not started beyond the web foundation**
+Implementation: **Initial product implementation exists in the working tree; V1 journeys and release gates remain unvalidated. See [VALIDATION.md](VALIDATION.md).**
 
 ## Vision
 

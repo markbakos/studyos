@@ -2,9 +2,9 @@
 
 Status: **Accepted initial model**
 
-Implementation: **Not started**
+Implementation: **Initial runtime schemas and Dexie V1 exist; the model below remains the target contract. See [VALIDATION.md](VALIDATION.md) for tested behavior.**
 
-This is the logical model. Exact Dexie table/index syntax belongs in `src/db/schema.ts` when Phase 1 begins.
+This is the logical model. Current Dexie table/index syntax lives in `src/db/schema.ts`; runtime validation lives in `src/types/model.ts`.
 
 ## Shared conventions
 

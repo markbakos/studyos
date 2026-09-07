@@ -6,13 +6,17 @@ This file records what has actually been proven. Design documents describe targe
 
 | Area | Status | Evidence |
 | --- | --- | --- |
-| React/Vite/TypeScript/Tailwind foundation | Validated | `npm run check` passed on 2026-09-07: Oxlint, TypeScript project build, and Vite production build. |
-| Context documentation | Validated | 2026-09-07: 11 Markdown files checked, all relative links resolved, 10 required context files present, fences balanced, final newlines present, and `git diff --check` passed. |
+| React/Vite/TypeScript/Tailwind foundation | Validated | `npm run check` passed on 2026-09-08: Oxlint, TypeScript project build, and Vite production build. Two existing lint warnings remain in `Shell.tsx` (render-time clock) and `SubjectsPage.tsx` (Fast Refresh export). |
+| Context documentation | Validated | 2026-09-08: context Markdown relative links, balanced fences, final newlines, and trailing whitespace checked; `git diff --check` passed. |
 | Browser rendering | Not validated | No browser or visual check recorded. |
-| Responsive/mobile UX | Not implemented | Placeholder screen only. |
-| IndexedDB and migrations | Not implemented | No Dexie dependency or schema. |
-| PWA/install/offline | Not implemented | No manifest or service worker. |
-| Product journeys A–E | Not implemented | Product subsystems do not exist. |
+| Responsive/mobile UX | Implemented, not browser validated | Responsive shell and feature screens exist in the working tree; no viewport interaction evidence recorded. |
+| IndexedDB and migrations | Partial automated runtime evidence | 2026-09-08: Node 26.8.1 with fake-indexeddb verifies V1 initialization and reopen. No historical version upgrade or real-browser migration evidence. |
+| PWA/install/offline | Configured, not browser validated | Production build generates a manifest and service worker; installation, offline operation, and safe updates remain open. |
+| Domain services | Partial automated runtime evidence | 2026-09-08: all 14 existing tests in `tests/domain.test.ts` pass, covering planning, hierarchy, learning, sessions, pack/backup validation, and injected transaction rollback. The backup fixture does not contain stored blobs despite its test title. |
+| Planner spacing and content changes | Automated runtime | 2026-09-08: all five tests in `tests/planner.test.ts` pass: daily revisits/determinism/immutability, same-day and unavailable future dates, assignment contention fallback, prerequisites/exact impossible demand, and question-driven replanning/idempotency. |
+| Product journeys A–E | Not browser validated | Initial services and screens exist, but end-to-end user journeys remain open. |
+
+Runtime commands: `node --import tsx tests/domain.test.ts` and `node --import tsx tests/planner.test.ts`. The `npm test` CLI was blocked by sandbox IPC permissions (`listen EPERM`); direct Node execution uses the installed tsx loader and runs all 19 named tests without the CLI socket.
 
 ## Evidence labels
 

@@ -7,9 +7,10 @@ StudyOS is delivered as connected vertical slices. Each subsystem defines its do
 ## Current baseline
 
 - React, TypeScript, Vite, Tailwind, and Oxlint are configured.
-- A placeholder application renders and the production build passes.
+- The working tree contains an initial application shell, domain screens/services, IndexedDB V1, planner, learning engines, portability, and PWA configuration; the production build passes.
 - Product and engineering context is established.
-- No V1 product subsystem is implemented yet.
+- Initial implementations span the delivery phases, but no phase exit gate has been fully validated. Continue connected slices and record evidence rather than treating existing screens as completion.
+- Planner 1.1 now adds topic revisits across available days with a deadline-capacity fallback and practice-content cache invalidation. Runtime regression evidence is in [`VALIDATION.md`](VALIDATION.md).
 
 ## Phase 1 — Foundation
 

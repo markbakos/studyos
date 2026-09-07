@@ -2,7 +2,16 @@
 
 Status: **Accepted behavioral contract; calibration open**
 
-Implementation: **Not started**
+Implementation: **Initial planner and transactional replanning service; policy 1.1 has automated spacing and feasibility regression coverage. Full phase gate remains open.**
+
+## Current policy (1.1)
+
+- The existing bounded greedy planner ranks by deadline, topic variety, priority, and stable origin key across a default 60-day horizon.
+- Exam-topic study prefers one session-sized block per topic per day while another usable day exists before the deadline. Assignments and due-card review are not subject to this spacing preference.
+- If spaced allocation leaves unfinished demand, the engine also tries compact allocation and chooses it only when it reduces shortfall. Spacing therefore cannot increase total shortfall relative to the compact policy; neither policy is an optimal scheduling solver.
+- Both passes retain capacity limits, prerequisite checks, and locked tasks. Same-day deadlines and days with no usable future capacity can receive multiple blocks.
+- Generated topic explanations identify the spacing preference. The fingerprint includes practice questions, so adding or remapping questions changes task composition on the next replan.
+- Remaining gaps include backward allocation, richer review forecasting and reason codes, incorporating prior-day study into spacing, and full browser validation of missed-day replanning. The contract below remains the delivery target.
 
 ## Purpose
 
