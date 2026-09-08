@@ -93,6 +93,9 @@ export default function Shell() {
           <NavLink to="/subjects">
             <span aria-hidden="true">▤</span>Subjects
           </NavLink>
+          <NavLink to="/create">
+            <span aria-hidden="true">✦</span>Create With AI
+          </NavLink>
           <NavLink to="/study">
             <span aria-hidden="true">▷</span>Study
           </NavLink>

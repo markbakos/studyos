@@ -49,6 +49,7 @@ export default function FlashcardsPage() {
   if (error) return <ErrorMessage message={error} />;
   if (!data) return <Loading />;
   const activeIds = new Set(data.subjects.map((s) => s.id)),
+    focus = data.topics.find((item) => item.id === topic)?.title ?? "",
     due = data.cards
       .filter(
         (c) =>
@@ -67,7 +68,15 @@ export default function FlashcardsPage() {
             Small moments of recall. Lasting understanding.
           </p>
         </div>
-        <button onClick={() => setEditing("new")}>+ Create flashcard</button>
+        <div className="button-row">
+          <Link
+            className="button"
+            to={`/create?kind=flashcards&subject=${subject}&focus=${encodeURIComponent(focus)}`}
+          >
+            Create Batch With AI
+          </Link>
+          <button onClick={() => setEditing("new")}>+ Create Flashcard</button>
+        </div>
       </div>
       <nav className="tabs">
         <Link

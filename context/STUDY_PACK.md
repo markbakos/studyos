@@ -2,7 +2,7 @@
 
 Status: **Accepted V1 design**
 
-Implementation: **Not started**
+Implementation: **Initial schema, validation, import/export, external generator skill, and in-app prompt/paste workflow exist; the acceptance gate remains open.**
 
 ## Purpose
 
@@ -138,6 +138,8 @@ study-generator/
 ```
 
 Its agent skill will analyze supplied sources or research an explicitly requested topic, construct a hierarchy, summaries, cards, questions, prerequisites, estimates, and references, then validate the final file against the schema. Generation can use Codex or another capable harness, but the schema and output stay provider-neutral.
+
+StudyOS also builds copyable, task-specific prompts for a complete pack, subject structure, notes, flashcards, or practice questions. The prompt includes the current JSON Schema and selected subject context. Users attach source files in their chosen AI chat, then paste the returned raw JSON or select a downloaded file for the same validation, preview, and transactional import flow. Manual authoring remains available.
 
 ## Acceptance gate
 

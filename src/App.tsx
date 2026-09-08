@@ -12,6 +12,7 @@ const Practice = lazy(() => import("./features/learning/PracticePage"));
 const Progress = lazy(() => import("./features/learning/ProgressPage"));
 const Settings = lazy(() => import("./features/settings/SettingsPage"));
 const Search = lazy(() => import("./features/search/SearchPage"));
+const Create = lazy(() => import("./features/generation/CreatePage"));
 class ErrorBoundary extends Component<
   { children: ReactNode },
   { error: boolean }
@@ -49,6 +50,7 @@ export default function App() {
               <Route path="progress" element={<Progress />} />
               <Route path="settings" element={<Settings />} />
               <Route path="search" element={<Search />} />
+              <Route path="create" element={<Create />} />
               <Route
                 path="more"
                 element={
@@ -58,6 +60,7 @@ export default function App() {
                       <Link to="/flashcards">Flashcards</Link>
                       <Link to="/practice">Practice</Link>
                       <Link to="/progress">Progress</Link>
+                      <Link to="/create">Create With AI</Link>
                       <Link to="/search">Search</Link>
                       <Link to="/settings">Settings & Study Packs</Link>
                     </div>

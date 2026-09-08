@@ -43,7 +43,8 @@ export default function PracticePage() {
   );
   if (error) return <ErrorMessage message={error} />;
   if (!data) return <Loading />;
-  const selected = data.questions.find((q) => q.id === selectedId);
+  const selected = data.questions.find((q) => q.id === selectedId),
+    focus = data.topics.find((item) => item.id === topic)?.title ?? "";
   return (
     <>
       <div className="page-heading">
@@ -52,7 +53,15 @@ export default function PracticePage() {
           <h1>Practice</h1>
           <p className="muted">Try it from memory. Learn from the answer.</p>
         </div>
-        <button onClick={() => setEditing("new")}>+ Create question</button>
+        <div className="button-row">
+          <Link
+            className="button"
+            to={`/create?kind=practice&subject=${subject}&focus=${encodeURIComponent(focus)}`}
+          >
+            Create Batch With AI
+          </Link>
+          <button onClick={() => setEditing("new")}>+ Create Question</button>
+        </div>
       </div>
       {editing ? (
         <section className="panel">

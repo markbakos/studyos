@@ -838,6 +838,9 @@ details p {
   border-top: 1px solid var(--line);
   margin: 24px 0;
 }
+.prompt-output {
+  margin-top: 24px;
+}
 .file-picker {
   border: 1px dashed var(--line);
   border-radius: 8px;

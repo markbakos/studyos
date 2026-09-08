@@ -1,44 +1,29 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { db } from "../../db/schema";
 import { useQuery } from "../../hooks/useQuery";
 import { Action, ErrorMessage } from "../../components/Feedback";
+import StudyPackImport from "./StudyPackImport";
 import { readFile } from "./file-client";
 import {
   createBackup,
   download,
   exportBackup,
   exportPack,
-  importPack,
   restoreBackup,
 } from "./service";
 import type { Backup } from "./validation";
 import type { StudyPack } from "./pack-schema";
-import { replan } from "../planning/service";
+
 export default function PortabilityPanel() {
   const { data } = useQuery(async () => ({
     subjects: await db.records("subjects").toArray(),
-    imports: await db
-      .records("imports")
-      .orderBy("createdAt")
-      .reverse()
-      .limit(20)
-      .toArray(),
-    count:
-      (await db.records("subjects").count()) +
-      (await db.records("sessions").count()) +
-      (await db.records("availabilityRules").count()),
   }));
-  const [pack, setPack] = useState<StudyPack>(),
-    [backup, setBackup] = useState<Backup>(),
-    [target, setTarget] = useState(""),
-    [copy, setCopy] = useState(false),
+  const [backup, setBackup] = useState<Backup>(),
     [safety, setSafety] = useState(false),
     [confirmation, setConfirmation] = useState(""),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
     [message, setMessage] = useState(""),
-    [fileName, setFileName] = useState(""),
     [exportSubject, setExportSubject] = useState(""),
     [exportTopic, setExportTopic] = useState(""),
     [exportPreview, setExportPreview] = useState<StudyPack>();
@@ -49,127 +34,46 @@ export default function PortabilityPanel() {
     [exportSubject],
   );
   useEffect(() => () => controller.current?.abort(), []);
-  async function select(file: File, kind: "pack" | "backup") {
+
+  async function selectBackup(file: File) {
     controller.current?.abort();
     const job = new AbortController();
     controller.current = job;
     setBusy(true);
     setError("");
     setMessage("");
-    setPack(undefined);
     setBackup(undefined);
     setSafety(false);
     setConfirmation("");
-    setFileName(file.name);
     try {
-      if (kind === "pack") setPack(await readFile(file, "pack", job.signal));
-      else setBackup((await readFile(file, "backup", job.signal)).backup);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Could not read file.");
+      setBackup((await readFile(file, "backup", job.signal)).backup);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Could not read file.");
     } finally {
       setBusy(false);
     }
   }
+
   return (
     <>
+      <StudyPackImport />
       <section className="panel">
-        <h2>Study Packs</h2>
-        <p className="muted">
-          Bring structured learning content from your own files or an external
-          generator. Preview everything before it reaches your workspace.
-        </p>
-        <label className="file-picker">
-          Select a Study Pack (JSON, up to 10 MB)
-          <input
-            type="file"
-            accept=".json,.study.json"
-            disabled={busy}
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) void select(file, "pack");
-              e.target.value = "";
-            }}
-          />
-        </label>
-        {busy ? (
-          <p role="status">
-            Validating file…{" "}
-            <button onClick={() => controller.current?.abort()}>Cancel</button>
-          </p>
-        ) : null}
-        {pack ? (
-          <div className="import-preview">
-            <h3>{pack.title}</h3>
-            <p>
-              {pack.topics.length} topics · {pack.notes.length} notes ·{" "}
-              {pack.flashcards.length} cards · {pack.practiceQuestions.length}{" "}
-              questions
-            </p>
-            <p className="muted">{pack.metadata.sourceDescription}</p>
-            <p>Rights: {pack.metadata.license}</p>
-            <label>
-              Import into
-              <select
-                value={target}
-                onChange={(e) => setTarget(e.target.value)}
-              >
-                <option value="">Create a new subject</option>
-                {data?.subjects.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="choice">
-              <input
-                type="checkbox"
-                checked={copy}
-                onChange={(e) => setCopy(e.target.checked)}
-              />
-              Import a separate copy, including duplicates
-            </label>
-            <p className="small muted">
-              Exact previously imported packs are blocked by default. Matching
-              topic paths, card fronts, and question prompts in your selected
-              subject are skipped unless you choose a separate copy.
-            </p>
-            <Action
-              className="primary"
-              onAction={async () => {
-                const result = await importPack(
-                  pack,
-                  fileName,
-                  target || undefined,
-                  copy,
-                );
-                setMessage(
-                  `Imported ${result.count} records. Your content is ready to study.`,
-                );
-                setPack(undefined);
-                await replan("Study Pack imported");
-              }}
-            >
-              Import Study Pack
-            </Action>
-          </div>
-        ) : null}
-        <div className="divider" />
-        <h3>Export learning content</h3>
+        <h2>Export Learning Content</h2>
         <label>
           Subject
           <select
+            name="exportSubject"
             value={exportSubject}
-            onChange={(e) => {
-              setExportSubject(e.target.value);
+            onChange={(event) => {
+              setExportSubject(event.target.value);
               setExportTopic("");
               setExportPreview(undefined);
             }}
           >
             <option value="">Choose a subject</option>
-            {data?.subjects.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.name}
+            {data?.subjects.map((subject) => (
+              <option key={subject.id} value={subject.id}>
+                {subject.name}
               </option>
             ))}
           </select>
@@ -177,16 +81,17 @@ export default function PortabilityPanel() {
         <label>
           Topics
           <select
+            name="exportTopic"
             value={exportTopic}
-            onChange={(e) => {
-              setExportTopic(e.target.value);
+            onChange={(event) => {
+              setExportTopic(event.target.value);
               setExportPreview(undefined);
             }}
           >
             <option value="">Entire subject</option>
-            {topics.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.title} and descendants
+            {topics.map((topic) => (
+              <option key={topic.id} value={topic.id}>
+                {topic.title} and descendants
               </option>
             ))}
           </select>
@@ -199,7 +104,7 @@ export default function PortabilityPanel() {
             )
           }
         >
-          Preview content export
+          Preview Content Export
         </Action>
         {exportPreview ? (
           <div className="notice">
@@ -222,18 +127,9 @@ export default function PortabilityPanel() {
             </button>
           </div>
         ) : null}
-        <details>
-          <summary>Recent imports ({data?.imports.length ?? 0})</summary>
-          {data?.imports.map((record) => (
-            <p key={record.id}>
-              {record.fileName} · {record.createdIds.length} records ·{" "}
-              {new Date(record.createdAt).toLocaleString()}
-            </p>
-          ))}
-        </details>
       </section>
       <section className="panel">
-        <h2>Backup & restore</h2>
+        <h2>Backup & Restore</h2>
         <p className="muted">
           A full backup includes your content, study history, settings, and
           stored files. It contains private data and is not encrypted.
@@ -245,31 +141,34 @@ export default function PortabilityPanel() {
             setMessage("Backup download created. Keep it somewhere safe.");
           }}
         >
-          Download full backup
+          Download Full Backup
         </Action>
         <div className="divider" />
         <label className="file-picker">
-          Preview a backup to restore (up to 100 MB)
+          Preview a backup to restore (up to 100&nbsp;MB)
           <input
             type="file"
             accept=".studyos,.json"
             disabled={busy}
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) void select(file, "backup");
-              e.target.value = "";
+            onChange={(event) => {
+              const file = event.target.files?.[0];
+              if (file) void selectBackup(file);
+              event.target.value = "";
             }}
           />
         </label>
         {backup ? (
           <div className="import-preview">
-            <h3>Replace this workspace</h3>
+            <h3>Replace This Workspace</h3>
             <p>
               Backup from {new Date(backup.exportedAt).toLocaleString()} · data
               version {backup.dataVersion}
             </p>
             <p>
-              {Object.values(backup.counts).reduce((n, value) => n + value, 0)}{" "}
+              {Object.values(backup.counts).reduce(
+                (total, value) => total + value,
+                0,
+              )}{" "}
               records across {Object.keys(backup.counts).length} tables.
               Checksum and relationships validated.
             </p>
@@ -288,7 +187,7 @@ export default function PortabilityPanel() {
                   setSafety(true);
                 }}
               >
-                Download current workspace safety backup
+                Download Current Workspace Safety Backup
               </Action>
             ) : (
               <p>Safety backup download created.</p>
@@ -296,8 +195,9 @@ export default function PortabilityPanel() {
             <label>
               Type RESTORE to confirm
               <input
+                name="restoreConfirmation"
                 value={confirmation}
-                onChange={(e) => setConfirmation(e.target.value)}
+                onChange={(event) => setConfirmation(event.target.value)}
                 autoComplete="off"
               />
             </label>
@@ -311,7 +211,7 @@ export default function PortabilityPanel() {
                 setMessage("Backup restored. Your workspace is ready.");
               }}
             >
-              Replace workspace with backup
+              Replace Workspace With Backup
             </Action>
           </div>
         ) : null}
@@ -320,11 +220,9 @@ export default function PortabilityPanel() {
           but it is not a backup and does not sync devices.
         </p>
       </section>
+      {busy ? <p role="status">Validating backup…</p> : null}
       <ErrorMessage message={error} />
       <p role="status">{message}</p>
-      {message.includes("Imported") ? (
-        <Link to="/subjects">Open your subjects →</Link>
-      ) : null}
     </>
   );
 }

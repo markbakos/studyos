@@ -49,6 +49,7 @@ The responsive primary navigation is:
 - Practice
 - Progress
 - Search
+- Create With AI
 - Settings
 
 Desktop may use a sidebar and optional contextual panel. Mobile uses a reduced bottom-level navigation centered on Today, Calendar, Study, Subjects, and More. Mobile is a deliberately composed experience, not a shrunken desktop shell.
@@ -67,6 +68,7 @@ Desktop may use a sidebar and optional contextual panel. Mobile uses a reduced b
 - Lightweight Markdown/math notes and materials
 - Global search and command palette (`Ctrl+K`)
 - Study Pack import/export
+- task-specific prompts for external AI generation and pasted Study Pack import
 - Full backup/restore and local reminders
 - Restrained progress analytics and study history
 - Settings, storage status, theme, and onboarding

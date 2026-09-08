@@ -39,6 +39,10 @@ import {
   exportPack,
 } from "../src/features/portability/service";
 import type { StudyPack } from "../src/features/portability/pack-schema";
+import {
+  createStudyPackPrompt,
+  promptKinds,
+} from "../src/features/generation/prompt";
 
 const date = "2026-09-07",
   now = `${date}T12:00:00.000Z`;
@@ -370,6 +374,27 @@ test("pack rejects unknown versions, properties, references, cycles and unsafe U
     assert.throws(() => validatePack(pack));
   }
   assert.throws(() => validatePack({ ...packFixture(), secret: "no" }));
+});
+test("AI prompt profiles include the exact import contract and task instructions", () => {
+  for (const kind of promptKinds) {
+    const prompt = createStudyPackPrompt({
+      kind: kind.value,
+      subject: "Algorithms",
+      level: "University",
+      goal: "Prepare for the final",
+      topics: "Dynamic programming",
+      sourceInstructions: "Use attached lecture.pdf",
+      amount: "20 items",
+      existingTopics: ["Recurrences"],
+      language: "en",
+      schema: { required: ["formatVersion", "flashcards"] },
+    });
+    assert.match(prompt, /Return exactly one raw JSON object/);
+    assert.match(prompt, /Never invent/);
+    assert.match(prompt, /Algorithms/);
+    assert.match(prompt, /"flashcards"/);
+    assert.match(prompt, new RegExp(kind.label.split(" ")[0], "i"));
+  }
 });
 test("backup restores data and blobs; invalid digest and future format preserve database", async () => {
   await fixture();

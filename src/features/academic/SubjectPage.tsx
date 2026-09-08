@@ -171,6 +171,9 @@ export default function SubjectPage() {
           </p>
         </div>
         <div className="button-row">
+          <Link className="button" to={`/create?subject=${id}`}>
+            Create With AI
+          </Link>
           <button onClick={() => setEditSubject(true)}>Edit subject</button>
           <Action
             onAction={async () => {

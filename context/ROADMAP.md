@@ -11,6 +11,7 @@ StudyOS is delivered as connected vertical slices. Each subsystem defines its do
 - Product and engineering context is established.
 - Initial implementations span the delivery phases, but no phase exit gate has been fully validated. Continue connected slices and record evidence rather than treating existing screens as completion.
 - Planner 1.1 now adds topic revisits across available days with a deadline-capacity fallback and practice-content cache invalidation. Runtime regression evidence is in [`VALIDATION.md`](VALIDATION.md).
+- A provider-neutral Create With AI screen builds task-specific prompts with the canonical schema and accepts generated JSON through the existing Study Pack importer.
 
 ## Phase 1 — Foundation
 
@@ -97,6 +98,7 @@ Deliver:
 - source-grounding and reference requirements;
 - Codex-compatible structured-output instructions without browser coupling;
 - topic-only research workflow that records credible references.
+- in-app prompts for complete packs, structure, notes, flashcards, and practice, with direct pasted-result validation.
 
 Exit gate: a source-based pack and a topic-only pack both validate and complete Journey D. No browser bundle contains model credentials or generator code.
 

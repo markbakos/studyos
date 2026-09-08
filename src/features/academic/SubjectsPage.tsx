@@ -45,9 +45,14 @@ export default function SubjectsPage() {
             A clear home for everything you want to understand.
           </p>
         </div>
-        <button className="primary" onClick={() => setAdding(true)}>
-          + Add subject
-        </button>
+        <div className="button-row">
+          <Link className="button" to="/create">
+            Create With AI
+          </Link>
+          <button className="primary" onClick={() => setAdding(true)}>
+            + Add Subject
+          </button>
+        </div>
       </div>
       {adding ? (
         <section className="panel">
