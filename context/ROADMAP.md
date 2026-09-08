@@ -12,6 +12,7 @@ StudyOS is delivered as connected vertical slices. Each subsystem defines its do
 - Initial implementations span the delivery phases, but no phase exit gate has been fully validated. Continue connected slices and record evidence rather than treating existing screens as completion.
 - Planner 1.1 now adds topic revisits across available days with a deadline-capacity fallback and practice-content cache invalidation. Runtime regression evidence is in [`VALIDATION.md`](VALIDATION.md).
 - A provider-neutral Create With AI screen builds task-specific prompts with the canonical schema and accepts generated JSON through the existing Study Pack importer.
+- GitHub Pages deployment is automated from `main` with the repository base path applied at build time.
 
 ## Phase 1 — Foundation
 
