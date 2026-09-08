@@ -1,0 +1,1 @@
+Create a StudyOS Study Pack from the supplied authorized source. Follow the adjacent SKILL.md and canonical JSON schema. Preserve traceable references, label original exercises, cover the requested level, and validate the completed file. Do not invent facts or citations to fill gaps.

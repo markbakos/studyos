@@ -1,0 +1,1 @@
+Research the explicitly requested learning topic using authoritative primary sources. Follow the adjacent SKILL.md and canonical JSON schema. Record all sources, language, rights, scope, and uncertainty. Create a topic hierarchy, retrieval cards, explanatory notes, and graded/self-assessed practice. Validate the final file before delivery.
